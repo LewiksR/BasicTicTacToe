@@ -4,7 +4,7 @@ namespace TicTacToe
 {
     public class Game
     {
-        string[,] board = new string[3, 3];
+        readonly string[,] board = new string[3, 3];
 
         private void Setup()
         {
@@ -30,14 +30,11 @@ namespace TicTacToe
                 while (!hasValidInput)
                 {
                     DisplayBoard();
-
-                    int inputX, inputY = -1;
                     Console.WriteLine("Enter the coordinates to play: \"x y\"");
                     string input = Console.ReadLine() ?? string.Empty;
                     string[] inputArray = input.Split(" ");
-                    inputX = int.Parse(inputArray[0]);
-                    inputY = int.Parse(inputArray[1]);
-
+                    int inputX = int.Parse(inputArray[0]);
+                    int inputY = int.Parse(inputArray[1]);
                     if (string.IsNullOrWhiteSpace(board[inputX, inputY]))
                     {
                         hasValidInput = true;
@@ -50,11 +47,15 @@ namespace TicTacToe
                     DisplayBoard();
                     string victor = GetCurrentTurnCharacter(isXTurn);
                     Console.WriteLine($"Victory by {victor}!");
-                    break;
+                    return;
                 }
 
                 isXTurn = !isXTurn;
             }
+
+            DisplayBoard();
+            Console.WriteLine("It's a tie!");
+            Console.ReadLine();
         }
 
         private void DisplayBoard()
